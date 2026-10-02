@@ -6,3 +6,4 @@ ios/
 android/
 coverage/
 package-lock.json
+.rnstorybook/storybook.requires.ts
