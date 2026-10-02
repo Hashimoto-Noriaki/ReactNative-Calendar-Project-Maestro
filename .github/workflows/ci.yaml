@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+# 同じブランチで新しい push があったら、実行中の古いジョブを止める
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint / Type check / Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        id: install
+        run: npm ci
+
+      # 1 つが失敗しても残りのチェックは最後まで実行する（依存のインストールに失敗した場合は実行しない）
+      - name: Lint (ESLint + Prettier)
+        run: npm run lint
+
+      - name: Type check
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run type-check
+
+      - name: Unit test (Jest)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm test -- --ci
