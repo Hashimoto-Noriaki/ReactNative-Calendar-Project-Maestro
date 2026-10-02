@@ -36,9 +36,12 @@ jobs:
       - name: Lint (ESLint + Prettier)
         run: npm run lint
 
+      # expo-env.d.ts（CSS などの型宣言）は expo start で生成され .gitignore されているため、CI では作成する
       - name: Type check
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
-        run: npm run type-check
+        run: |
+          echo '/// <reference types="expo/types" />' > expo-env.d.ts
+          npm run type-check
 
       - name: Unit test (Jest)
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
