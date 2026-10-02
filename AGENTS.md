@@ -32,7 +32,7 @@ Expo は SDK ごとに破壊的変更があり、覚えている API は名前�
 
 1. `package.json` の `expo` パッケージのメジャーバージョンを確認する（現在は 57）
 2. 対応するバージョンのドキュメントを確認する: `https://docs.expo.dev/versions/v<major>.0.0/`
-3. それ以外は https://docs.expo.dev/llms.txt （Expo ドキュメントの索引。LLM がよく誤解する点の訂正も載っている）から該当ページをたどる。記憶で答えない
+3. それ以外は <https://docs.expo.dev/llms.txt>（Expo ドキュメントの索引。LLM がよく誤解する点の訂正も載っている）から該当ページをたどる。記憶で答えない
 
 ## フォルダ構成
 

@@ -47,6 +47,6 @@
 | ESLint + Prettier                   | ✅   | #11        |
 | Storybook（on-device / Web）        | ✅   | #2         |
 | Jest + React Native Testing Library | ✅   |            |
-| CodeRabbit                          | 🟡   |            |
-| CI（GitHub Actions）                | ⬜   |            |
+| CodeRabbit                          | ✅   |            |
+| CI（GitHub Actions）                | ✅   |            |
 | Maestro（E2E）                      | ⬜   |            |
