@@ -13,11 +13,13 @@ description: 変更を論理的な単位に分割してコミットメッセー�
 
 形式: `<type>(<scope>): <description>`
 
-scopeはmatching-app-cloneのドメインに合わせる:
+scope は `.claude/rules/git.md` のドメインに合わせる:
 
-- profiles: プロフィール機能
-- matches: マッチング機能
-- likes: いいね機能
-- chat: チャット機能
-- ui: 共通UIパーツ
-- api: APIルート
+- calendar: カレンダー表示（月 / 週 / 日 / スケジュール）
+- events: 予定の作成・編集・削除・詳細、終日・繰り返し予定
+- settings: 設定
+- navigation: 画面遷移・ルーティング（`src/app/`）
+- ui: 共通UIパーツ（`src/components/`・テーマ）
+- deps: 依存パッケージ
+- ci: CI（`.github/`）
+- claude: AI エージェント向けの設定（`.claude/`・`AGENTS.md`）

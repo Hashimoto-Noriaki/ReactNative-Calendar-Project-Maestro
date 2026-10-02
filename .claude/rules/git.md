@@ -23,7 +23,7 @@ type の選択肢:
 
 scope の例（Googleカレンダークローン向け）:
 
-- calendar, events, settings, navigation, ui, deps
+- calendar, events, settings, navigation, ui, deps, ci, claude
 
 ## PR のルール
 
