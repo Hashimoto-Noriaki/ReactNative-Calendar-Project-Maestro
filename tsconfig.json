@@ -14,6 +14,8 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     ".rnstorybook/**/*.ts",
-    ".rnstorybook/**/*.tsx"
+    ".rnstorybook/**/*.tsx",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx"
   ]
 }

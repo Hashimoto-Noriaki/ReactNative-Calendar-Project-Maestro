@@ -36,6 +36,7 @@
     "@storybook/addon-ondevice-backgrounds": "10.5.1",
     "@storybook/addon-ondevice-controls": "10.5.1",
     "@storybook/react-native": "10.5.1",
+    "@storybook/react-native-web-vite": "10.5.1",
     "@testing-library/react-native": "^14.0.1",
     "@types/jest": "29.5.14",
     "@types/react": "~19.2.2",
@@ -47,7 +48,8 @@
     "jest-expo": "~57.0.5",
     "prettier": "^3.9.9",
     "storybook": "10.5.1",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "vite": "^7.3.6"
   },
   "scripts": {
     "start": "expo start",
@@ -65,7 +67,8 @@
     "storybook": "STORYBOOK_ENABLED=true STORYBOOK_DISABLE_TELEMETRY=true expo start",
     "storybook:ios": "STORYBOOK_ENABLED=true STORYBOOK_DISABLE_TELEMETRY=true expo start --ios",
     "storybook:android": "STORYBOOK_ENABLED=true STORYBOOK_DISABLE_TELEMETRY=true expo start --android",
-    "storybook-generate": "sb-rn-get-stories --config-path .rnstorybook"
+    "storybook-generate": "sb-rn-get-stories --config-path .rnstorybook",
+    "storybook:web": "storybook dev -p 6006"
   },
   "private": true,
   "jest": {
@@ -75,6 +78,8 @@
     }
   },
   "overrides": {
+    "@storybook/react": "10.5.1",
+    "@storybook/react-dom-shim": "10.5.1",
     "@storybook/react-native-ui": "10.5.1",
     "@storybook/react-native-ui-common": "10.5.1",
     "@storybook/react-native-theming": "10.5.1"
