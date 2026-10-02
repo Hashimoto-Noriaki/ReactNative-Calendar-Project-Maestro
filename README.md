@@ -25,6 +25,28 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
+## Lint・フォーマット・型チェック・テスト
+
+| ツール                   | コマンド               | 内容                                                                              |
+| ------------------------ | ---------------------- | --------------------------------------------------------------------------------- |
+| ESLint + Prettier        | `npm run lint`         | ESLint（`src/`）と Prettier のチェック（Markdown 含むプロジェクト全体）を実行する |
+|                          | `npm run lint:fix`     | ESLint の自動修正と Prettier のフォーマットを実行する                             |
+| Prettier                 | `npm run format:check` | フォーマットが崩れているファイルを確認する（変更なし）                            |
+|                          | `npm run format`       | プロジェクト全体をフォーマットする                                                |
+| TypeScript（型チェック） | `npm run type-check`   | 型チェックを実行する（`tsc --noEmit`）                                            |
+| Jest（ユニットテスト）   | `npm test`             | ユニットテストを実行する                                                          |
+|                          | `npm run test:watch`   | 変更を監視してテストを再実行する                                                  |
+
+PR を出す前に、以下がすべて通ることを確認してください。
+
+```bash
+npm run lint
+npm run type-check
+npm test
+```
+
+Claude Code では `/test` で Lint・Jest・型チェックをまとめて実行できます。
+
 ## Storybook
 
 Storybook は2種類あり、ストーリーファイルは共通です。

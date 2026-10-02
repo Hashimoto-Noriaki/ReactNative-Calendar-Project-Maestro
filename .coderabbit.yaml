@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# CodeRabbit 設定（Googleカレンダークローン / Expo + React Native）
+language: ja-JP
+tone_instructions: '日本語で簡潔に指摘してください。重要度（must / should / nit）を明示し、可能なら修正例のコードを添えてください。'
+early_access: false
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  collapse_walkthrough: false
+  sequence_diagrams: false
+  poem: false
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - master
+
+  # レビュー対象から除外するファイル
+  path_filters:
+    - '!**/package-lock.json'
+    - '!**/node_modules/**'
+    - '!.expo/**'
+    - '!ios/**'
+    - '!android/**'
+    - '!assets/**'
+    - '!.rnstorybook/storybook.requires.ts'
+    - '!expo-env.d.ts'
+
+  path_instructions:
+    - path: 'src/app/**'
+      instructions: |
+        Expo Router の画面ファイルです。以下を確認してください。
+        - 画面以外のコード（コンポーネント・hooks・utils）が置かれていないか（src/features/ に移すべき）
+        - 画面遷移は expo-router の Link / router、パラメータは useLocalSearchParams を使っているか
+        - ノッチ・ホームバーを react-native-safe-area-context で回避しているか
+    - path: 'src/**/*.tsx'
+      instructions: |
+        - 関数コンポーネントのみを使っているか
+        - スタイルは StyleSheet.create で定義し、JSX 内のインラインスタイルオブジェクトを避けているか
+        - 色・余白は src/constants/theme.ts と useTheme から取得し、ハードコードしていないか
+        - ライト / ダークモード両方で破綻しないか
+        - 長いリストは FlatList / SectionList を使い、ScrollView + map になっていないか
+        - アニメーションは react-native-reanimated、スワイプは react-native-gesture-handler、画像は expo-image を使っているか
+        - プラットフォーム差分は .web.tsx / .ios.tsx / .android.tsx か Platform.select で分けているか
+    - path: 'src/**/*.{ts,tsx}'
+      instructions: |
+        - TypeScript strict mode 前提で any や非 null アサーションの乱用がないか
+        - ファイル名は kebab-case、コンポーネント・型は PascalCase、hooks は use プレフィックスか
+        - 日時はタイムゾーンを考慮し、保存形式は ISO 8601 文字列に統一されているか
+        - 日付計算（週の開始日・月の日数・繰り返し予定の展開など）が UI から切り離された純粋関数になっているか
+        - Expo SDK 57 で非推奨・廃止された API を使っていないか
+    - path: 'src/features/**'
+      instructions: |
+        機能ごとのコードです。コンポーネント・hooks・types・utils・テストが同じ feature フォルダに置かれているか（Co-location）、
+        複数 feature をまたぐものは src/components/ / src/hooks/ / src/constants/ に置かれているかを確認してください。
+    - path: '**/*.test.{ts,tsx}'
+      instructions: |
+        Jest + React Native Testing Library のテストです。
+        - 実装詳細ではなくユーザーから見える振る舞いをテストしているか
+        - 日付に依存するテストは現在時刻を固定しているか（タイムゾーン依存で不安定にならないか）
+    - path: '**/*.stories.tsx'
+      instructions: 'Storybook のストーリーです。主要な状態（通常・空・長いテキスト・ダークモードなど）が網羅されているかを軽く確認してください。'
+    - path: 'app.json'
+      instructions: 'ネイティブ設定は app.json と config plugin で行う方針です。不要な権限追加や設定ミスがないか確認してください。'
+    - path: '.github/workflows/**'
+      instructions: 'npm run lint と npx tsc --noEmit が CI で実行されているか、シークレットの扱いが安全かを確認してください。'
+
+  tools:
+    eslint:
+      enabled: true
+    biome:
+      enabled: false
+    markdownlint:
+      enabled: true
+    yamllint:
+      enabled: true
+    actionlint:
+      enabled: true
+    shellcheck:
+      enabled: true
+    gitleaks:
+      enabled: true
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - '.claude/CLAUDE.md'
+      - 'AGENTS.md'
+      - '.claude/rules/**/*.md'
+      - 'docs/**/*.md'
