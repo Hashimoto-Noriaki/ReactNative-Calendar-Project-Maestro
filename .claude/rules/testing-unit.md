@@ -1,6 +1,6 @@
 ---
 paths:
-  - "src/**/*.spec.{ts,tsx}"
+  - 'src/**/*.spec.{ts,tsx}'
 ---
 
 # Unit Test Rules（Jest）
