@@ -5,7 +5,7 @@ description: GitHub Issueの本文を生成する。マッチングアプリク�
 ## 指示
 
 以下の形式でGitHub Issueの本文を生成してください。
-`CLAUDE.md` の機能一覧を参照して、どの機能に関するIssueかを明記してください。
+`AGENTS.md` の機能一覧を参照して、どの機能に関するIssueかを明記してください。
 
 ## 概要
 

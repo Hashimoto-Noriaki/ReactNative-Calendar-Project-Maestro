@@ -92,7 +92,7 @@ knowledge_base:
   code_guidelines:
     enabled: true
     filePatterns:
-      - 'CLAUDE.md'
+      - '.claude/CLAUDE.md'
       - 'AGENTS.md'
       - '.claude/rules/**/*.md'
       - 'docs/**/*.md'

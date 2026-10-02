@@ -13,10 +13,9 @@ tools: Read, Grep, Glob, Bash
 
 レビュー前に必ず以下を読む。
 
-- `CLAUDE.md`（フォルダ構成・開発規約・やらないこと）
+- `AGENTS.md`（フォルダ構成・開発規約・やらないこと・Expo SDK 57 の注意点）
 - `.claude/rules/mobile.md`（コンポーネント・UI・日付・ディレクトリ・命名のルール）
 - `.claude/rules/testing-unit.md`（ユニットテストのルール）
-- `AGENTS.md`（Expo SDK 57 の注意点）
 
 推測で指摘しない。呼び出し元・呼び出し先を `Read` / `Grep` で追い、実際に問題が起きる経路を確認してから指摘する。
 

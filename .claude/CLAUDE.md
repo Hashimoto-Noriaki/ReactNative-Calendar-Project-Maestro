@@ -1,8 +1,8 @@
-@AGENTS.md
+@../AGENTS.md
 
 # Claude Code 固有の補足
 
-プロジェクトの指示は上記の `AGENTS.md` にまとめています。ここには Claude Code 固有のことだけを書きます。
+プロジェクトの指示は上記の `AGENTS.md`（リポジトリ直下）にまとめています。ここには Claude Code 固有のことだけを書きます。
 
 ## ルール
 

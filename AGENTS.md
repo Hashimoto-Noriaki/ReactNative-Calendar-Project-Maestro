@@ -1,7 +1,7 @@
 # Googleカレンダークローン（React Native）
 
 AI コーディングエージェント（Claude Code・Codex など）向けの共通の指示書です。
-Claude Code 固有の補足は `CLAUDE.md` に書きます。
+Claude Code 固有の補足は `.claude/CLAUDE.md` に書きます。
 
 ## プロジェクト概要
 

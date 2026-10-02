@@ -12,7 +12,7 @@ tools: Read, Grep, Glob, Bash
 
 ## 前提
 
-レビュー前に必ず `CLAUDE.md` と `.claude/rules/mobile.md` を読む。
+レビュー前に必ず `AGENTS.md` と `.claude/rules/mobile.md` を読む。
 
 - サーバー・データベースはなく、予定データは端末内で完結する（認証・API・SQL は対象外）
 - Google カレンダー API との実連携はしない
