@@ -13,13 +13,22 @@ if [ -z "$COMMAND" ]; then
   exit 0
 fi
 
-# 安全と判断した gh サブコマンドのみ除外
-if echo "$COMMAND" | grep -Eq "^gh (pr create|pr view|issue view)\b"; then
+# コマンド全体が単一の操作か判定する
+# 改行・区切り（; &）・パイプ・コマンド置換・リダイレクトを含む複合コマンドは対象外にする
+is_single_command() {
+  case "$COMMAND" in
+    *$'\n'* | *';'* | *'&'* | *'|'* | *'`'* | *'$('* | *'<'* | *'>'*) return 1 ;;
+  esac
+  return 0
+}
+
+# 安全と判断した gh サブコマンドのみ除外（単一の操作のときだけ）
+if is_single_command && [[ "$COMMAND" =~ ^gh\ (pr\ create|pr\ view|issue\ view)([[:space:]]|$) ]]; then
   exit 0
 fi
 
-# git commitは除外
-if echo "$COMMAND" | grep -q "^git commit"; then
+# git commit は除外（単一の操作のときだけ）
+if is_single_command && [[ "$COMMAND" =~ ^git\ commit([[:space:]]|$) ]]; then
   exit 0
 fi
 
