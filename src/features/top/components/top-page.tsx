@@ -1,0 +1,31 @@
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import { LogoText } from '@/components/atoms/logo-text';
+import { PrimaryBtn } from '@/components/atoms/primary-btn';
+import { NotLoginLayout } from '@/components/organisms/not-login-layout';
+import { Spacing } from '@/constants/theme';
+
+export const TopPage = () => {
+  return (
+    <NotLoginLayout>
+      <LogoText size="lg" />
+      {/* titleMedium（16）の 2 倍 */}
+      <Text variant="headlineLarge" style={styles.description}>
+        お互いのスケジュールを管理するアプリです
+      </Text>
+      <View style={styles.buttonArea}>
+        <PrimaryBtn>ログイン</PrimaryBtn>
+      </View>
+    </NotLoginLayout>
+  );
+};
+
+const styles = StyleSheet.create({
+  description: {
+    marginTop: Spacing.fiveHalf,
+    textAlign: 'center',
+  },
+  buttonArea: {
+    marginTop: Spacing.seven,
+  },
+});

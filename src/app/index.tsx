@@ -1,5 +1,5 @@
-import { View } from 'react-native';
+import { TopPage } from '@/features/top/components/top-page';
 
 export default function Index() {
-  return <View />;
+  return <TopPage />;
 }
