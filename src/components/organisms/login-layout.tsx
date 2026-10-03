@@ -5,7 +5,7 @@ import { Link } from 'expo-router';
 import { Icon, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LogoText } from '@/components/atoms/logo-text';
-import type { AppTheme } from '@/constants/theme';
+import { Spacing, type AppTheme } from '@/constants/theme';
 import { useLoginUserStore } from '@/features/auth/stores/login-user-store';
 import { useAppTheme } from '@/hooks/use-app-theme';
 
@@ -64,7 +64,7 @@ const createStyles = (theme: AppTheme, topInset: number) =>
     header: {
       height: 50 + topInset,
       paddingTop: topInset,
-      paddingHorizontal: 16,
+      paddingHorizontal: Spacing.three,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -72,12 +72,12 @@ const createStyles = (theme: AppTheme, topInset: number) =>
     },
     nav: {
       flexDirection: 'row',
-      gap: 16,
+      gap: Spacing.three,
     },
     navItem: {
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 4,
+      gap: Spacing.one,
     },
     navText: {
       color: theme.colors.primary,
