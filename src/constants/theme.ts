@@ -78,6 +78,7 @@ export const lightTheme = {
     onPrimary: '#ffffff',
     // アプリ独自の色
     headerBackground: '#ffffff',
+    cardBackground: '#ffffff',
     gradientStart: '#ecfccb', // lime-100
     gradientEnd: '#d9f99d', // lime-200
     logoText: '#ffffff',
@@ -94,6 +95,7 @@ export const darkTheme: AppTheme = {
     primary: '#a3e635', // lime-400
     onPrimary: '#1a2e05', // lime-950
     headerBackground: '#1c1b1f',
+    cardBackground: '#1c1b1f',
     gradientStart: '#1a2e05',
     gradientEnd: '#365314',
     logoText: '#ffffff',
