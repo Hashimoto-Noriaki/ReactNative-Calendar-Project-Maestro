@@ -8,7 +8,8 @@ export const TopPage = () => {
   return (
     <NotLoginLayout>
       <LogoText size="lg" />
-      <Text variant="titleMedium" style={styles.description}>
+      {/* titleMedium（16）の 2 倍 */}
+      <Text variant="headlineLarge" style={styles.description}>
         お互いのスケジュールを管理するアプリです
       </Text>
       <View style={styles.buttonArea}>
