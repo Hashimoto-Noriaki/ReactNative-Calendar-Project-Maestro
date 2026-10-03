@@ -56,6 +56,7 @@ export const Spacing = {
   half: 2,
   one: 4,
   two: 8,
+  twoHalf: 12,
   three: 16,
   threeHalf: 20,
   four: 24,
