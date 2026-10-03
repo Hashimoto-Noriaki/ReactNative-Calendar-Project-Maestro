@@ -6,6 +6,8 @@ Googleカレンダークローン（Expo / React Native）のシステム構成�
 
 サーバーは持たず、予定データは端末内で完結させる。
 
+> **例外:** API 通信の学習のため、予定一覧は `fetch` で API（`src/features/calendar/api/`）から取得する。ただし本物のサーバーは作らず、API は MSW のモック（`src/mocks/`）で端末内に用意する。モックは `.env` の `EXPO_PUBLIC_USE_MOCK=true` のときだけ起動する（`src/app/_layout.tsx`）。「サーバー / DB は作らない」方針は変えない。
+
 ```text
 ┌──────────────────────────────┐
 │ src/app/（Expo Router：画面）  │  ルーティング・画面の組み立てのみ
