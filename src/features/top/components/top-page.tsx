@@ -3,6 +3,7 @@ import { Text } from 'react-native-paper';
 import { LogoText } from '@/components/atoms/logo-text';
 import { PrimaryBtn } from '@/components/atoms/primary-btn';
 import { NotLoginLayout } from '@/components/organisms/not-login-layout';
+import { Spacing } from '@/constants/theme';
 
 export const TopPage = () => {
   return (
@@ -21,10 +22,10 @@ export const TopPage = () => {
 
 const styles = StyleSheet.create({
   description: {
-    marginTop: 40,
+    marginTop: Spacing.fiveHalf,
     textAlign: 'center',
   },
   buttonArea: {
-    marginTop: 80,
+    marginTop: Spacing.seven,
   },
 });

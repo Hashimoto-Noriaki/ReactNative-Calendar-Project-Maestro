@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LogoText } from '@/components/atoms/logo-text';
-import type { AppTheme } from '@/constants/theme';
+import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 
 type PropsType = {
@@ -48,7 +48,7 @@ const createStyles = (theme: AppTheme, topInset: number) =>
     header: {
       height: 50 + topInset,
       paddingTop: topInset,
-      paddingHorizontal: 16,
+      paddingHorizontal: Spacing.three,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -56,7 +56,7 @@ const createStyles = (theme: AppTheme, topInset: number) =>
     },
     nav: {
       flexDirection: 'row',
-      gap: 20,
+      gap: Spacing.threeHalf,
     },
     navItem: {
       color: theme.colors.primary,

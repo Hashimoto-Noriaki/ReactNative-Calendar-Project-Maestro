@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
+import { Spacing } from '@/constants/theme';
 
 type PropsType = {
   children: string;
@@ -15,8 +16,8 @@ export const PrimaryBtn = ({ children }: PropsType) => {
 
 const styles = StyleSheet.create({
   content: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: Spacing.two,
+    paddingHorizontal: Spacing.three,
   },
   label: {
     fontSize: 18,
