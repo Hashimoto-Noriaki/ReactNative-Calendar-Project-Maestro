@@ -1,10 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Spacing } from '@/constants/theme';
 
 type PropsType = {
   children: string;
-  onPress?: () => void;
+  onPress: () => void;
   disabled?: boolean;
 };
 
@@ -23,8 +22,8 @@ export const PrimaryBtn = ({ children, onPress, disabled }: PropsType) => {
 
 const styles = StyleSheet.create({
   content: {
-    paddingVertical: Spacing.two,
-    paddingHorizontal: Spacing.three,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   label: {
     fontSize: 18,

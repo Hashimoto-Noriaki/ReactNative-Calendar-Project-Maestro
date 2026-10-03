@@ -12,6 +12,10 @@ export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleLogin = () => {
+    // TODO: ログインの仕組みが決まったら実装する
+  };
+
   return (
     <Surface style={styles.card} elevation={2}>
       <View style={styles.heading}>
@@ -44,7 +48,7 @@ export const LoginPage = () => {
           returnKeyType="done"
         />
       </View>
-      <PrimaryBtn>ログイン</PrimaryBtn>
+      <PrimaryBtn onPress={handleLogin}>ログイン</PrimaryBtn>
     </Surface>
   );
 };
