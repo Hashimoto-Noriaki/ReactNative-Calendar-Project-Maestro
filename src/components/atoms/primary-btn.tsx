@@ -4,11 +4,18 @@ import { Spacing } from '@/constants/theme';
 
 type PropsType = {
   children: string;
+  onPress?: () => void;
+  disabled?: boolean;
 };
 
-export const PrimaryBtn = ({ children }: PropsType) => {
+export const PrimaryBtn = ({ children, onPress, disabled }: PropsType) => {
   return (
-    <Button mode="contained" contentStyle={styles.content} labelStyle={styles.label}>
+    <Button
+      mode="contained"
+      onPress={onPress}
+      disabled={disabled}
+      contentStyle={styles.content}
+      labelStyle={styles.label}>
       {children}
     </Button>
   );
