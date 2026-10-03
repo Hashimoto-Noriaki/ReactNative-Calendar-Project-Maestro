@@ -2,12 +2,12 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { LogoText } from '@/components/atoms/logo-text';
 import { PrimaryBtn } from '@/components/atoms/primary-btn';
-import { NotLoginLayout } from '@/components/organisms/not-login-layout';
 import { Spacing } from '@/constants/theme';
 
+// NotLoginLayout は (not-login)/_layout.tsx でかぶせる
 export const TopPage = () => {
   return (
-    <NotLoginLayout>
+    <>
       <LogoText size="lg" />
       {/* titleMedium（16）の 2 倍 */}
       <Text variant="headlineLarge" style={styles.description}>
@@ -16,7 +16,7 @@ export const TopPage = () => {
       <View style={styles.buttonArea}>
         <PrimaryBtn>ログイン</PrimaryBtn>
       </View>
-    </NotLoginLayout>
+    </>
   );
 };
 
