@@ -3,32 +3,39 @@ import { Button } from 'react-native-paper';
 import { Spacing } from '@/constants/theme';
 
 type PropsType = {
-  children: string;
+  size?: 'sm' | 'lg';
   onPress: () => void;
   disabled?: boolean;
+  children: string;
   testID?: string;
 };
 
-export const PrimaryBtn = ({ children, onPress, disabled, testID }: PropsType) => {
+export const PrimaryBtn = ({ size = 'lg', children, onPress, disabled, testID }: PropsType) => {
   return (
     <Button
       mode="contained"
       onPress={onPress}
       disabled={disabled}
       testID={testID}
-      contentStyle={styles.content}
-      labelStyle={styles.label}>
+      contentStyle={size === 'lg' ? styles.contentLg : styles.contentSm}
+      labelStyle={size === 'lg' ? styles.labelLg : styles.labelSm}>
       {children}
     </Button>
   );
 };
 
 const styles = StyleSheet.create({
-  content: {
+  contentLg: {
     paddingVertical: Spacing.two,
     paddingHorizontal: Spacing.three,
   },
-  label: {
+  labelLg: {
     fontSize: 18,
+  },
+  contentSm: {
+    paddingHorizontal: Spacing.one,
+  },
+  labelSm: {
+    fontSize: 14,
   },
 });
