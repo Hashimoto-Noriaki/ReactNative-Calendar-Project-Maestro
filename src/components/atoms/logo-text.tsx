@@ -24,6 +24,7 @@ export const LogoText = ({ size }: PropsType) => {
 const createStyles = (theme: AppTheme) =>
   StyleSheet.create({
     logo: {
+      flexShrink: 1,
       fontWeight: 'bold',
       textAlign: 'center',
       color: theme.colors.logoText,
