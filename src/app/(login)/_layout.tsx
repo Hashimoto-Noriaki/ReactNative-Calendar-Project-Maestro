@@ -1,19 +1,15 @@
-import { Slot, useRouter } from 'expo-router';
+import { Redirect, Slot } from 'expo-router';
 import { LoginLayout } from '@/components/organisms/login-layout';
 import { useLoginUserStore } from '@/features/auth/stores/login-user-store';
 
 export default function LoginGroupLayout() {
-  const router = useRouter();
   const loginUser = useLoginUserStore((state) => state.loginUser);
-  const logout = useLoginUserStore((state) => state.logout);
 
-  const handleLogout = () => {
-    logout();
-    router.replace('/');
-  };
+  // ログインしていなければログイン画面へ
+  if (loginUser.id === 0) return <Redirect href="/login" />;
 
   return (
-    <LoginLayout userName={loginUser.name} onLogout={handleLogout}>
+    <LoginLayout>
       <Slot />
     </LoginLayout>
   );
