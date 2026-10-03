@@ -9,11 +9,15 @@ import type { AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import { login } from '../api/login';
 import { loginSchema, type LoginSchemaType } from '../schemas/login-schema';
+import { useRouter } from 'expo-router';
+import { useLoginUserStore } from '../stores/login-user-store';
 
 export const LoginPage = () => {
+  const router = useRouter();
   const theme = useAppTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [errorMessage, setErrorMessage] = useState('');
+  const setLoginUser = useLoginUserStore((state) => state.setLoginUser);
 
   const {
     control,
@@ -27,7 +31,9 @@ export const LoginPage = () => {
   const onSubmit = (data: LoginSchemaType) => {
     setErrorMessage('');
     try {
-      login(data);
+      const user = login(data);
+      setLoginUser(user);
+      router.replace('/calendar');
     } catch {
       setErrorMessage('ログインに失敗しました');
     }
