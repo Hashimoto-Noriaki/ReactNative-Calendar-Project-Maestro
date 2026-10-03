@@ -1,14 +1,20 @@
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Spacing } from '@/constants/theme';
 
 type PropsType = {
   children: string;
+  onPress: () => void;
+  disabled?: boolean;
 };
 
-export const PrimaryBtn = ({ children }: PropsType) => {
+export const PrimaryBtn = ({ children, onPress, disabled }: PropsType) => {
   return (
-    <Button mode="contained" contentStyle={styles.content} labelStyle={styles.label}>
+    <Button
+      mode="contained"
+      onPress={onPress}
+      disabled={disabled}
+      contentStyle={styles.content}
+      labelStyle={styles.label}>
       {children}
     </Button>
   );
@@ -16,8 +22,8 @@ export const PrimaryBtn = ({ children }: PropsType) => {
 
 const styles = StyleSheet.create({
   content: {
-    paddingVertical: Spacing.two,
-    paddingHorizontal: Spacing.three,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   label: {
     fontSize: 18,

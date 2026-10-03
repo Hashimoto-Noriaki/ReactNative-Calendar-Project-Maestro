@@ -1,5 +1,6 @@
+import { Link } from 'expo-router';
 import { ReactNode, useMemo } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Text } from 'react-native-paper';
 import { useSafeAreaInsets, type EdgeInsets } from 'react-native-safe-area-context';
@@ -23,10 +24,18 @@ export const NotLoginLayout = ({ children }: PropsType) => {
     <View style={styles.container}>
       {/* ヘッダー */}
       <View style={styles.header}>
-        <LogoText size="sm" />
+        <Link href="/" asChild>
+          <Pressable>
+            <LogoText size="sm" />
+          </Pressable>
+        </Link>
         <View style={styles.nav}>
           <Text style={styles.navItem}>ご利用方法</Text>
-          <Text style={styles.navItem}>ログイン</Text>
+          <Link href="/login" asChild>
+            <Pressable>
+              <Text style={styles.navItem}>ログイン</Text>
+            </Pressable>
+          </Link>
         </View>
       </View>
 
