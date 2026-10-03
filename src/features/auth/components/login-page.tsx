@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/atoms/input';
 import { PrimaryBtn } from '@/components/atoms/primary-btn';
-import type { AppTheme } from '@/constants/theme';
+import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import { login } from '../api/login';
 import { loginSchema, type LoginSchemaType } from '../schemas/login-schema';
@@ -40,100 +40,106 @@ export const LoginPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Surface style={styles.card} elevation={2}>
+    <Surface style={styles.card} elevation={2}>
+      <View style={styles.heading}>
         <Text variant="headlineSmall" style={styles.title}>
           ログイン
         </Text>
+        <Text variant="bodyMedium" style={styles.subtitle}>
+          メールアドレスとパスワードを入力してください
+        </Text>
+      </View>
 
-        {errorMessage !== '' && (
-          <View style={styles.errorBox}>
-            <Text style={styles.errorText} testID="login-error-message">
-              {errorMessage}
-            </Text>
-          </View>
-        )}
-
-        <View style={styles.field}>
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { value, onChange, onBlur } }) => (
-              <Input
-                label="email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                error={!!errors.email}
-                testID="login-email-input"
-              />
-            )}
-          />
-          <HelperText type="error" visible={!!errors.email}>
-            {errors.email?.message}
-          </HelperText>
+      {errorMessage !== '' && (
+        <View style={styles.errorBox}>
+          <Text style={styles.errorText} testID="login-error-message">
+            {errorMessage}
+          </Text>
         </View>
+      )}
 
-        <View style={styles.field}>
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { value, onChange, onBlur } }) => (
-              <Input
-                label="password"
-                secureTextEntry
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                error={!!errors.password}
-                testID="login-password-input"
-              />
-            )}
-          />
-          <HelperText type="error" visible={!!errors.password}>
-            {errors.password?.message}
-          </HelperText>
-        </View>
+      <View>
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { value, onChange, onBlur } }) => (
+            <Input
+              label="メールアドレス"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+              textContentType="emailAddress"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={!!errors.email}
+              testID="login-email-input"
+            />
+          )}
+        />
+        <HelperText type="error" visible={!!errors.email}>
+          {errors.email?.message}
+        </HelperText>
 
-        <PrimaryBtn onPress={handleSubmit(onSubmit)} testID="login-submit-button">
-          ログイン
-        </PrimaryBtn>
-      </Surface>
-    </View>
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { value, onChange, onBlur } }) => (
+            <Input
+              label="パスワード"
+              secureTextEntry
+              autoCapitalize="none"
+              autoComplete="password"
+              textContentType="password"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={!!errors.password}
+              testID="login-password-input"
+            />
+          )}
+        />
+        <HelperText type="error" visible={!!errors.password}>
+          {errors.password?.message}
+        </HelperText>
+      </View>
+
+      <PrimaryBtn onPress={handleSubmit(onSubmit)} testID="login-submit-button">
+        ログイン
+      </PrimaryBtn>
+    </Surface>
   );
 };
 
 const createStyles = (theme: AppTheme) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingHorizontal: 16,
-    },
     card: {
       width: '100%',
-      maxWidth: 500,
-      alignItems: 'center',
-      gap: 16,
-      paddingVertical: 40,
-      borderRadius: 8,
+      maxWidth: 400,
+      gap: Spacing.three,
+      paddingHorizontal: Spacing.four,
+      paddingVertical: Spacing.five,
+      borderRadius: theme.roundness * 3,
+      backgroundColor: theme.colors.cardBackground,
+    },
+    heading: {
+      gap: Spacing.two,
     },
     title: {
       fontWeight: 'bold',
+      textAlign: 'center',
+      color: theme.colors.primary,
+    },
+    subtitle: {
+      textAlign: 'center',
+      color: theme.colors.onSurfaceVariant,
     },
     errorBox: {
-      width: '80%',
-      padding: 16,
-      borderRadius: 8,
+      padding: Spacing.three,
+      borderRadius: theme.roundness * 2,
       backgroundColor: theme.colors.errorContainer,
     },
     errorText: {
       color: theme.colors.onErrorContainer,
-    },
-    field: {
-      width: '80%',
     },
   });
