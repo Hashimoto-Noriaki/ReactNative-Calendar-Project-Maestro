@@ -76,6 +76,9 @@ const createStyles = (theme: AppTheme, { top, bottom, left, right }: EdgeInsets)
     },
     scrollContent: {
       flexGrow: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: Spacing.three,
       paddingBottom: bottom,
     },
   });
