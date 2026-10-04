@@ -18,29 +18,25 @@ export const CalendarPage = () => {
   const dateList = useMemo(() => getMonthDateList(currentDate), [currentDate]);
   const { data: schedules, isLoading, isError } = useSchedules();
 
-  if (isLoading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-
-  if (isError) {
-    return (
-      <View style={styles.center}>
-        <Text>予定の取得に失敗しました</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <Text variant="headlineSmall" style={styles.title} testID="calendar-month-title">
         {format(currentDate, 'yyyy年M月')}
       </Text>
       <CalendarNav />
-      <Text style={styles.count}>予定: {schedules?.length ?? 0}件</Text>
+
+      {/* 日付の表示は予定データに依存しないため、読み込み中・失敗時もカレンダーは表示する */}
+      <View style={styles.status}>
+        {isLoading ? (
+          <ActivityIndicator size="small" />
+        ) : isError ? (
+          <Text style={styles.errorText} testID="calendar-schedules-error">
+            予定の取得に失敗しました
+          </Text>
+        ) : (
+          <Text>予定: {schedules?.length ?? 0}件</Text>
+        )}
+      </View>
 
       <View style={styles.table}>
         <CalendarHeader />
@@ -58,17 +54,15 @@ const createStyles = (theme: AppTheme) =>
       paddingHorizontal: Spacing.three,
       paddingTop: Spacing.four,
     },
-    center: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     title: {
       fontWeight: 'bold',
       marginBottom: Spacing.two,
     },
-    count: {
+    status: {
       marginBottom: Spacing.twoHalf,
+    },
+    errorText: {
+      color: theme.colors.error,
     },
     table: {
       width: '100%',
