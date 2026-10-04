@@ -22,9 +22,8 @@ export const handlers = [
 
   http.post(`${API_URL}/api/schedules`, async ({ request }) => {
     const newSchedule = (await request.json()) as NewSchedule;
-    const nextId = Math.max(0, ...scheduleStore.map((schedule) => schedule.id)) + 1;
-    const created: Schedule = { ...newSchedule, id: nextId };
-    scheduleStore = [...scheduleStore, created];
-    return HttpResponse.json(created, { status: 201 });
+    const schedule: Schedule = { id: Date.now(), ...newSchedule };
+    scheduleStore = [...scheduleStore, schedule];
+    return HttpResponse.json(schedule, { status: 201 });
   }),
 ];

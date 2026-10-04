@@ -4,7 +4,9 @@ import { useColorScheme } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import { USE_MOCK } from '@/constants/api';
 import { darkTheme, lightTheme } from '@/constants/theme';
+import { ja, registerTranslation } from 'react-native-paper-dates';
 
+registerTranslation('ja', ja);
 // モックを使う設定のときだけ MSW とポリフィルを読み込んで起動する
 if (USE_MOCK) {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
