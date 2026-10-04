@@ -1,13 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, HelperText, Modal, Portal, Text } from 'react-native-paper';
-import { DatePickerModal } from 'react-native-paper-dates';
+import { HelperText, Modal, Portal, Text } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
-import { format, parseISO } from 'date-fns';
 import { Input, PrimaryBtn } from '@/components/atoms';
 import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import { useScheduleForm } from '../hooks/use-schedule-form';
+import { ScheduleDateField } from './schedule-date-field';
 
 type PropsType = {
   visible: boolean;
@@ -17,12 +16,18 @@ type PropsType = {
 export const CreateScheduleModal = ({ visible, onClose }: PropsType) => {
   const theme = useAppTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const { control, errors, onSubmit, isPending, errorMessage } = useScheduleForm({ onClose });
+  const { control, errors, onSubmit, handleClose, isPending, errorMessage } = useScheduleForm({
+    onClose,
+  });
 
   return (
     <Portal>
-      <Modal visible={visible} onDismiss={onClose} contentContainerStyle={styles.container}>
+      <Modal
+        visible={visible}
+        onDismiss={handleClose}
+        // 送信中は背景をタップしても閉じない
+        dismissable={!isPending}
+        contentContainerStyle={styles.container}>
         <Text variant="headlineSmall" style={styles.title}>
           予定作成
         </Text>
@@ -59,26 +64,7 @@ export const CreateScheduleModal = ({ visible, onClose }: PropsType) => {
           control={control}
           name="date"
           render={({ field: { value, onChange } }) => (
-            <>
-              <Button
-                mode="outlined"
-                icon="calendar"
-                onPress={() => setIsDatePickerOpen(true)}
-                testID="schedule-date-button">
-                {value}
-              </Button>
-              <DatePickerModal
-                locale="ja"
-                mode="single"
-                visible={isDatePickerOpen}
-                date={parseISO(value)}
-                onDismiss={() => setIsDatePickerOpen(false)}
-                onConfirm={({ date }) => {
-                  if (date) onChange(format(date, 'yyyy-MM-dd'));
-                  setIsDatePickerOpen(false);
-                }}
-              />
-            </>
+            <ScheduleDateField value={value} onChange={onChange} />
           )}
         />
         <HelperText type="error" visible={!!errors.date}>

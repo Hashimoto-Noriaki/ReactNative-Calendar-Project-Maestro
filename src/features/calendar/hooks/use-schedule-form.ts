@@ -29,16 +29,26 @@ export const useScheduleForm = ({ onClose }: PropsType) => {
     defaultValues: getInitialValues(),
   });
 
+  // 閉じるときは入力内容とエラー表示を初期状態に戻す
+  const resetForm = () => {
+    reset(getInitialValues());
+    setErrorMessage('');
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
+
   const onSubmit = handleSubmit(async (data) => {
     setErrorMessage('');
     try {
       await mutateAsync(data);
-      reset(getInitialValues());
-      onClose();
+      handleClose();
     } catch {
       setErrorMessage('予定の作成に失敗しました');
     }
   });
 
-  return { control, errors, onSubmit, isPending, errorMessage };
+  return { control, errors, onSubmit, handleClose, isPending, errorMessage };
 };

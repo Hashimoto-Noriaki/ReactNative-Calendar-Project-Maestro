@@ -14,6 +14,8 @@ let scheduleStore: Schedule[] = [
   { id: 4, title: '予定4', description: '説明4', date: toYmd(addDays(today, 7)) },
   { id: 5, title: '予定5', description: '説明5', date: toYmd(addDays(today, -9)) },
 ];
+// 作成する予定の id（同じミリ秒に作っても重複しないよう連番にする）
+let nextId = scheduleStore.length + 1;
 
 export const handlers = [
   http.get(`${API_URL}/api/schedules`, () => {
@@ -22,14 +24,7 @@ export const handlers = [
 
   http.post(`${API_URL}/api/schedules`, async ({ request }) => {
     const newSchedule = (await request.json()) as NewSchedule;
-    const schedule: Schedule = { id: Date.now(), ...newSchedule };
-    scheduleStore = [...scheduleStore, schedule];
-    return HttpResponse.json(schedule, { status: 201 });
-  }),
-
-  http.post(`${API_URL}/api/schedules`, async ({ request }) => {
-    const newSchedule = (await request.json()) as NewSchedule;
-    const schedule: Schedule = { id: Date.now(), ...newSchedule };
+    const schedule: Schedule = { id: nextId++, ...newSchedule };
     scheduleStore = [...scheduleStore, schedule];
     return HttpResponse.json(schedule, { status: 201 });
   }),

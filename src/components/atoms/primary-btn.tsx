@@ -26,7 +26,7 @@ export const PrimaryBtn = ({
       testID={testID}
       loading={loading}
       // 送信中は押せないようにする
-      disabled={disabled || loading}
+      disabled={Boolean(disabled || loading)}
       contentStyle={size === 'lg' ? styles.contentLg : styles.contentSm}
       labelStyle={size === 'lg' ? styles.labelLg : styles.labelSm}>
       {children}
