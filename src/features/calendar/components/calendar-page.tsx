@@ -14,24 +14,6 @@ export const CalendarPage = () => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   const { currentDate, dateList, schedulesByDate, isLoading, isError } = useCalendar();
 
-  if (isLoading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-
-  if (isError) {
-    return (
-      <View style={styles.center}>
-        <Text style={styles.errorText} testID="calendar-schedules-error">
-          予定の取得に失敗しました
-        </Text>
-      </View>
-    );
-  }
-
   return (
     // 6週ある月は小さい画面に収まらないため、スクロールできるようにする
     <ScrollView contentContainerStyle={styles.container}>
@@ -39,6 +21,16 @@ export const CalendarPage = () => {
         {format(currentDate, 'yyyy年M月')}
       </Text>
       <CalendarNav />
+
+      {/* 日付の表示は予定データに依存しないため、読み込み中・失敗時もカレンダーは表示する */}
+      {isLoading ? (
+        <ActivityIndicator size="small" style={styles.status} />
+      ) : isError ? (
+        <Text style={[styles.status, styles.errorText]} testID="calendar-schedules-error">
+          予定の取得に失敗しました
+        </Text>
+      ) : null}
+
       <View style={styles.table}>
         <CalendarHeader />
         <CalendarBody
@@ -53,11 +45,6 @@ export const CalendarPage = () => {
 
 const createStyles = (theme: AppTheme) =>
   StyleSheet.create({
-    center: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     container: {
       flexGrow: 1,
       alignItems: 'center',
@@ -68,6 +55,9 @@ const createStyles = (theme: AppTheme) =>
     title: {
       fontWeight: 'bold',
       marginBottom: Spacing.two,
+    },
+    status: {
+      marginBottom: Spacing.twoHalf,
     },
     errorText: {
       color: theme.colors.error,
