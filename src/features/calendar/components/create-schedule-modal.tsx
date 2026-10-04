@@ -2,14 +2,12 @@ import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, HelperText, Modal, Portal, Text } from 'react-native-paper';
 import { DatePickerModal } from 'react-native-paper-dates';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller } from 'react-hook-form';
 import { format, parseISO } from 'date-fns';
 import { Input, PrimaryBtn } from '@/components/atoms';
 import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
-import { scheduleSchema, type ScheduleFormData } from '../schemas/schedule-schema';
-import { useCreateSchedule } from '../hooks/use-create-schedule';
+import { useScheduleForm } from '../hooks/use-schedule-form';
 
 type PropsType = {
   visible: boolean;
@@ -20,29 +18,7 @@ export const CreateScheduleModal = ({ visible, onClose }: PropsType) => {
   const theme = useAppTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const { mutateAsync, isPending } = useCreateSchedule();
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ScheduleFormData>({
-    resolver: zodResolver(scheduleSchema),
-    defaultValues: { title: '', date: format(new Date(), 'yyyy-MM-dd'), description: '' },
-  });
-
-  const onSubmit = async (data: ScheduleFormData) => {
-    setErrorMessage('');
-    try {
-      await mutateAsync(data);
-      reset({ title: '', date: format(new Date(), 'yyyy-MM-dd'), description: '' });
-      onClose();
-    } catch {
-      setErrorMessage('予定の作成に失敗しました');
-    }
-  };
+  const { control, errors, onSubmit, isPending, errorMessage } = useScheduleForm({ onClose });
 
   return (
     <Portal>
@@ -50,6 +26,14 @@ export const CreateScheduleModal = ({ visible, onClose }: PropsType) => {
         <Text variant="headlineSmall" style={styles.title}>
           予定作成
         </Text>
+
+        {errorMessage !== '' && (
+          <View style={styles.errorBox}>
+            <Text style={styles.errorText} testID="schedule-error-message">
+              {errorMessage}
+            </Text>
+          </View>
+        )}
 
         {/* タイトル */}
         <Controller
@@ -69,14 +53,6 @@ export const CreateScheduleModal = ({ visible, onClose }: PropsType) => {
         <HelperText type="error" visible={!!errors.title}>
           {errors.title?.message}
         </HelperText>
-
-        {errorMessage !== '' && (
-          <View style={styles.errorBox}>
-            <Text style={styles.errorText} testID="schedule-error-message">
-              {errorMessage}
-            </Text>
-          </View>
-        )}
 
         {/* 日付 */}
         <Controller
@@ -130,7 +106,7 @@ export const CreateScheduleModal = ({ visible, onClose }: PropsType) => {
         <View style={styles.buttonArea}>
           <PrimaryBtn
             size="lg"
-            onPress={handleSubmit(onSubmit)}
+            onPress={onSubmit}
             loading={isPending}
             testID="schedule-submit-button">
             作成
@@ -155,13 +131,6 @@ const createStyles = (theme: AppTheme) =>
       color: theme.colors.primary,
       marginBottom: Spacing.three,
     },
-    textarea: {
-      minHeight: 100,
-    },
-    buttonArea: {
-      alignItems: 'center',
-      marginTop: Spacing.two,
-    },
     errorBox: {
       padding: Spacing.three,
       marginBottom: Spacing.three,
@@ -171,5 +140,12 @@ const createStyles = (theme: AppTheme) =>
     errorText: {
       textAlign: 'center',
       color: theme.colors.onErrorContainer,
+    },
+    textarea: {
+      minHeight: 100,
+    },
+    buttonArea: {
+      alignItems: 'center',
+      marginTop: Spacing.four,
     },
   });

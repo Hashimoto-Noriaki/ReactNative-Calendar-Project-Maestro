@@ -26,4 +26,11 @@ export const handlers = [
     scheduleStore = [...scheduleStore, schedule];
     return HttpResponse.json(schedule, { status: 201 });
   }),
+
+  http.post(`${API_URL}/api/schedules`, async ({ request }) => {
+    const newSchedule = (await request.json()) as NewSchedule;
+    const schedule: Schedule = { id: Date.now(), ...newSchedule };
+    scheduleStore = [...scheduleStore, schedule];
+    return HttpResponse.json(schedule, { status: 201 });
+  }),
 ];
