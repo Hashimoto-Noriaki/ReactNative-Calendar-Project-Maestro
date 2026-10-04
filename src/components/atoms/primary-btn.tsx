@@ -8,15 +8,25 @@ type PropsType = {
   disabled?: boolean;
   children: string;
   testID?: string;
+  loading?: boolean;
 };
 
-export const PrimaryBtn = ({ size = 'lg', children, onPress, disabled, testID }: PropsType) => {
+export const PrimaryBtn = ({
+  size = 'lg',
+  children,
+  onPress,
+  disabled,
+  loading,
+  testID,
+}: PropsType) => {
   return (
     <Button
       mode="contained"
       onPress={onPress}
-      disabled={disabled}
       testID={testID}
+      loading={loading}
+      // 送信中は押せないようにする
+      disabled={Boolean(disabled || loading)}
       contentStyle={size === 'lg' ? styles.contentLg : styles.contentSm}
       labelStyle={size === 'lg' ? styles.labelLg : styles.labelSm}>
       {children}

@@ -2,8 +2,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
+import { ja, registerTranslation } from 'react-native-paper-dates';
 import { USE_MOCK } from '@/constants/api';
 import { darkTheme, lightTheme } from '@/constants/theme';
+
+// 日付ピッカーを日本語にする
+registerTranslation('ja', ja);
 
 // モックを使う設定のときだけ MSW とポリフィルを読み込んで起動する
 if (USE_MOCK) {
