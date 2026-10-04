@@ -7,6 +7,7 @@ import { useAppTheme } from '@/hooks/use-app-theme';
 import { useSchedules } from '../hooks/use-schedules';
 import { useCalendarStore } from '../stores/calendar-store';
 import { getMonthDateList } from '../utils/get-month-date-list';
+import { groupSchedulesByDate } from '../utils/group-schedules-by-date';
 import { CalendarBody } from './calendar-body';
 import { CalendarHeader } from './calendar-header';
 import { CalendarNav } from './calendar-nav';
@@ -17,6 +18,7 @@ export const CalendarPage = () => {
   const currentDate = useCalendarStore((state) => state.currentDate);
   const dateList = useMemo(() => getMonthDateList(currentDate), [currentDate]);
   const { data: schedules, isLoading, isError } = useSchedules();
+  const schedulesByDate = useMemo(() => groupSchedulesByDate(schedules ?? []), [schedules]);
 
   return (
     <View style={styles.container}>
@@ -40,7 +42,11 @@ export const CalendarPage = () => {
 
       <View style={styles.table}>
         <CalendarHeader />
-        <CalendarBody currentDate={currentDate} dateList={dateList} />
+        <CalendarBody
+          currentDate={currentDate}
+          dateList={dateList}
+          schedulesByDate={schedulesByDate}
+        />
       </View>
     </View>
   );
