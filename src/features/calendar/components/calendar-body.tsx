@@ -7,6 +7,7 @@ import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import type { Schedule } from '../types/calendar';
 import { getDateStatus } from '../utils/get-date-status';
+import { useCalendarStore } from '../stores/calendar-store';
 
 type PropsType = {
   currentDate: Date;
@@ -17,6 +18,7 @@ type PropsType = {
 export const CalendarBody = ({ currentDate, dateList, schedulesByDate }: PropsType) => {
   const theme = useAppTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
+  const selectSchedule = useCalendarStore((state) => state.selectSchedule);
 
   return (
     <View>
@@ -41,7 +43,7 @@ export const CalendarBody = ({ currentDate, dateList, schedulesByDate }: PropsTy
                   {schedules.map((schedule) => (
                     <ScheduleBtn
                       key={schedule.id}
-                      onPress={() => {}}
+                      onPress={() => selectSchedule(schedule.id)}
                       testID={`schedule-${schedule.id}`}>
                       {schedule.title}
                     </ScheduleBtn>
