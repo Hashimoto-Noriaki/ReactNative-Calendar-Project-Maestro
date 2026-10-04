@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { format } from 'date-fns';
-import type { AppTheme } from '@/constants/theme';
+import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import { useCalendar } from '../hooks/use-calendar';
 import { CalendarBody } from './calendar-body';
@@ -25,7 +25,9 @@ export const CalendarPage = () => {
   if (isError) {
     return (
       <View style={styles.center}>
-        <Text>予定の取得に失敗しました</Text>
+        <Text style={styles.errorText} testID="calendar-schedules-error">
+          予定の取得に失敗しました
+        </Text>
       </View>
     );
   }
@@ -50,6 +52,11 @@ export const CalendarPage = () => {
 
 const createStyles = (theme: AppTheme) =>
   StyleSheet.create({
+    center: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     container: {
       flexGrow: 1,
       alignItems: 'center',
@@ -60,9 +67,6 @@ const createStyles = (theme: AppTheme) =>
     title: {
       fontWeight: 'bold',
       marginBottom: Spacing.two,
-    },
-    status: {
-      marginBottom: Spacing.twoHalf,
     },
     errorText: {
       color: theme.colors.error,
