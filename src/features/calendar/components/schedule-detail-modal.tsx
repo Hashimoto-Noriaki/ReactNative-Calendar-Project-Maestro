@@ -6,12 +6,19 @@ import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import { useSelectedSchedule } from '../hooks/use-selected-schedule';
 import { useCalendarStore } from '../stores/calendar-store';
+import { UpdateScheduleModal } from './update-schedule-modal';
 
 export const ScheduleDetailModal = () => {
   const theme = useAppTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const schedule = useSelectedSchedule();
+  const isEditing = useCalendarStore((state) => state.isEditing);
   const clearSelectedSchedule = useCalendarStore((state) => state.clearSelectedSchedule);
+  const startEditing = useCalendarStore((state) => state.startEditing);
+
+  if (schedule && isEditing) {
+    return <UpdateScheduleModal schedule={schedule} />;
+  }
 
   return (
     <Portal>
@@ -35,6 +42,9 @@ export const ScheduleDetailModal = () => {
                 onPress={clearSelectedSchedule}
                 testID="schedule-detail-close-button">
                 閉じる
+              </Button>
+              <Button mode="contained" onPress={startEditing} testID="schedule-detail-edit-button">
+                編集
               </Button>
             </View>
           </View>

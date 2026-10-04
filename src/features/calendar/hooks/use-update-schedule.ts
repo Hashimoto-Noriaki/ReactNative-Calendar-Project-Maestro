@@ -7,7 +7,8 @@ export const useUpdateSchedule = () => {
   return useMutation({
     mutationFn: updateSchedule,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      // Promise を返して、一覧の取り直しが終わるまで送信中の状態にする
+      return queryClient.invalidateQueries({ queryKey: ['schedules'] });
     },
   });
 };
