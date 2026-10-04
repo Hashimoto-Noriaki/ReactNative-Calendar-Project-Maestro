@@ -28,4 +28,16 @@ export const handlers = [
     scheduleStore = [...scheduleStore, schedule];
     return HttpResponse.json(schedule, { status: 201 });
   }),
+
+  http.patch(`${API_URL}/api/schedules/:id`, async ({ request, params }) => {
+    const id = Number(params.id);
+    const body = (await request.json()) as Partial<NewSchedule>;
+    const target = scheduleStore.find((schedule) => schedule.id === id);
+    if (!target) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+    const updated: Schedule = { ...target, ...body };
+    scheduleStore = scheduleStore.map((schedule) => (schedule.id === id ? updated : schedule));
+    return HttpResponse.json(updated);
+  }),
 ];
