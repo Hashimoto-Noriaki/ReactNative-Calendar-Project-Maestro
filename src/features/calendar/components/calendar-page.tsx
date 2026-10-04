@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { format } from 'date-fns';
 import { Spacing, type AppTheme } from '@/constants/theme';
@@ -21,7 +21,8 @@ export const CalendarPage = () => {
   const schedulesByDate = useMemo(() => groupSchedulesByDate(schedules ?? []), [schedules]);
 
   return (
-    <View style={styles.container}>
+    // 6週ある月は小さい画面に収まらないため、スクロールできるようにする
+    <ScrollView contentContainerStyle={styles.container}>
       <Text variant="headlineSmall" style={styles.title} testID="calendar-month-title">
         {format(currentDate, 'yyyy年M月')}
       </Text>
@@ -48,17 +49,18 @@ export const CalendarPage = () => {
           schedulesByDate={schedulesByDate}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const createStyles = (theme: AppTheme) =>
   StyleSheet.create({
     container: {
-      flex: 1,
+      flexGrow: 1,
       alignItems: 'center',
       paddingHorizontal: Spacing.three,
       paddingTop: Spacing.four,
+      paddingBottom: Spacing.four,
     },
     title: {
       fontWeight: 'bold',
