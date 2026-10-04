@@ -8,6 +8,7 @@ import { useCalendar } from '../hooks/use-calendar';
 import { CalendarBody } from './calendar-body';
 import { CalendarHeader } from './calendar-header';
 import { CalendarNav } from './calendar-nav';
+import { ScheduleDetailModal } from './schedule-detail-modal';
 
 export const CalendarPage = () => {
   const theme = useAppTheme();
@@ -39,6 +40,7 @@ export const CalendarPage = () => {
           schedulesByDate={schedulesByDate}
         />
       </View>
+      <ScheduleDetailModal />
     </ScrollView>
   );
 };
