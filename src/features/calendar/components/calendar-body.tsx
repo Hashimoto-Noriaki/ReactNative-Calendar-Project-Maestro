@@ -1,17 +1,20 @@
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { getDate } from 'date-fns';
+import { format, getDate } from 'date-fns';
+import { ScheduleBtn } from '@/components/atoms';
 import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
+import type { Schedule } from '../types/calendar';
 import { getDateStatus } from '../utils/get-date-status';
 
 type PropsType = {
   currentDate: Date;
   dateList: Date[][];
+  schedulesByDate: Record<string, Schedule[]>;
 };
 
-export const CalendarBody = ({ currentDate, dateList }: PropsType) => {
+export const CalendarBody = ({ currentDate, dateList, schedulesByDate }: PropsType) => {
   const theme = useAppTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
@@ -21,6 +24,7 @@ export const CalendarBody = ({ currentDate, dateList }: PropsType) => {
         <View key={week[0].toISOString()} style={styles.row}>
           {week.map((date) => {
             const status = getDateStatus(date, currentDate);
+            const schedules = schedulesByDate[format(date, 'yyyy-MM-dd')] ?? [];
             return (
               <View key={date.toISOString()} style={styles.cell}>
                 <View style={[styles.dateCircle, status === 'today' && styles.todayCircle]}>
@@ -32,6 +36,16 @@ export const CalendarBody = ({ currentDate, dateList }: PropsType) => {
                     ]}>
                     {getDate(date)}
                   </Text>
+                </View>
+                <View style={styles.scheduleList}>
+                  {schedules.map((schedule) => (
+                    <ScheduleBtn
+                      key={schedule.id}
+                      onPress={() => {}}
+                      testID={`schedule-${schedule.id}`}>
+                      {schedule.title}
+                    </ScheduleBtn>
+                  ))}
                 </View>
               </View>
             );
@@ -52,6 +66,8 @@ const createStyles = (theme: AppTheme) =>
       height: 80,
       alignItems: 'center',
       padding: Spacing.one,
+      // 予定が多い日はセルの高さを超えた分を隠す
+      overflow: 'hidden',
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: theme.colors.outlineVariant,
     },
@@ -74,5 +90,11 @@ const createStyles = (theme: AppTheme) =>
     },
     otherMonthText: {
       color: theme.colors.outline,
+    },
+    scheduleList: {
+      width: '100%',
+      alignItems: 'center',
+      gap: Spacing.half,
+      marginTop: Spacing.half,
     },
   });
