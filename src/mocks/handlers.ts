@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { addDays, format } from 'date-fns';
 import { API_URL } from '@/constants/api';
-import type { Schedule } from '@/features/calendar/types/calendar';
+import type { NewSchedule, Schedule } from '@/features/calendar/types/calendar';
 
 const today = new Date();
 const toYmd = (date: Date) => format(date, 'yyyy-MM-dd');
@@ -18,5 +18,13 @@ let scheduleStore: Schedule[] = [
 export const handlers = [
   http.get(`${API_URL}/api/schedules`, () => {
     return HttpResponse.json(scheduleStore);
+  }),
+
+  http.post(`${API_URL}/api/schedules`, async ({ request }) => {
+    const newSchedule = (await request.json()) as NewSchedule;
+    const nextId = Math.max(0, ...scheduleStore.map((schedule) => schedule.id)) + 1;
+    const created: Schedule = { ...newSchedule, id: nextId };
+    scheduleStore = [...scheduleStore, created];
+    return HttpResponse.json(created, { status: 201 });
   }),
 ];
