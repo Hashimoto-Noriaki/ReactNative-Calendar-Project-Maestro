@@ -1,12 +1,11 @@
 import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { HelperText, Modal, Portal, Text } from 'react-native-paper';
-import { Controller } from 'react-hook-form';
-import { Input, PrimaryBtn } from '@/components/atoms';
+import { Modal, Portal, Text } from 'react-native-paper';
+import { ErrorMessage, PrimaryBtn } from '@/components/atoms';
 import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import { useScheduleForm } from '../hooks/use-schedule-form';
-import { ScheduleDateField } from './schedule-date-field';
+import { ScheduleFormFields } from './schedule-form-fields';
 
 type PropsType = {
   visible: boolean;
@@ -32,62 +31,8 @@ export const CreateScheduleModal = ({ visible, onClose }: PropsType) => {
           予定作成
         </Text>
 
-        {errorMessage !== '' && (
-          <View style={styles.errorBox}>
-            <Text style={styles.errorText} testID="schedule-error-message">
-              {errorMessage}
-            </Text>
-          </View>
-        )}
-
-        {/* タイトル */}
-        <Controller
-          control={control}
-          name="title"
-          render={({ field: { value, onChange, onBlur } }) => (
-            <Input
-              label="タイトル"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              error={!!errors.title}
-              testID="schedule-title-input"
-            />
-          )}
-        />
-        <HelperText type="error" visible={!!errors.title}>
-          {errors.title?.message}
-        </HelperText>
-
-        {/* 日付 */}
-        <Controller
-          control={control}
-          name="date"
-          render={({ field: { value, onChange } }) => (
-            <ScheduleDateField value={value} onChange={onChange} />
-          )}
-        />
-        <HelperText type="error" visible={!!errors.date}>
-          {errors.date?.message}
-        </HelperText>
-
-        {/* 内容 */}
-        <Controller
-          control={control}
-          name="description"
-          render={({ field: { value, onChange, onBlur } }) => (
-            <Input
-              label="内容"
-              multiline
-              numberOfLines={4}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              style={styles.textarea}
-              testID="schedule-description-input"
-            />
-          )}
-        />
+        <ErrorMessage testID="schedule-error-message">{errorMessage}</ErrorMessage>
+        <ScheduleFormFields control={control} errors={errors} />
 
         <View style={styles.buttonArea}>
           <PrimaryBtn
@@ -116,19 +61,6 @@ const createStyles = (theme: AppTheme) =>
       textAlign: 'center',
       color: theme.colors.primary,
       marginBottom: Spacing.three,
-    },
-    errorBox: {
-      padding: Spacing.three,
-      marginBottom: Spacing.three,
-      borderRadius: theme.roundness * 2,
-      backgroundColor: theme.colors.errorContainer,
-    },
-    errorText: {
-      textAlign: 'center',
-      color: theme.colors.onErrorContainer,
-    },
-    textarea: {
-      minHeight: 100,
     },
     buttonArea: {
       alignItems: 'center',
