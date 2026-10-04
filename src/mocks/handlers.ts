@@ -40,4 +40,13 @@ export const handlers = [
     scheduleStore = scheduleStore.map((schedule) => (schedule.id === id ? updated : schedule));
     return HttpResponse.json(updated);
   }),
+
+  http.delete(`${API_URL}/api/schedules/:id`, ({ params }) => {
+    const id = Number(params.id);
+    if (!scheduleStore.some((schedule) => schedule.id === id)) {
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 });
+    }
+    scheduleStore = scheduleStore.filter((schedule) => schedule.id !== id);
+    return new HttpResponse(null, { status: 204 });
+  }),
 ];

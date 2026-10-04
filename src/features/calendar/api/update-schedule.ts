@@ -1,4 +1,5 @@
 import { API_URL } from '@/constants/api';
+import { scheduleResponseSchema } from '../schemas/schedule-schema';
 import type { Schedule } from '../types/calendar';
 
 export const updateSchedule = async (schedule: Schedule): Promise<Schedule> => {
@@ -11,5 +12,9 @@ export const updateSchedule = async (schedule: Schedule): Promise<Schedule> => {
   if (!res.ok) {
     throw new Error('予定の更新に失敗しました');
   }
-  return res.json();
+  const result = scheduleResponseSchema.safeParse(await res.json());
+  if (!result.success) {
+    throw new Error('予定のデータの形式が正しくありません');
+  }
+  return result.data;
 };
