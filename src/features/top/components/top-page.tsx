@@ -15,7 +15,9 @@ export const TopPage = () => {
         お互いのスケジュールを管理するアプリです
       </Text>
       <View style={styles.buttonArea}>
-        <PrimaryBtn onPress={() => router.push('/login')}>ログイン</PrimaryBtn>
+        <PrimaryBtn onPress={() => router.push('/login')} testID="top-login-button">
+          ログイン
+        </PrimaryBtn>
       </View>
     </>
   );

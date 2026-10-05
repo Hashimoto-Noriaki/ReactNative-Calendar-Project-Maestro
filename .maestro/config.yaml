@@ -1,0 +1,4 @@
+# `maestro test .maestro` で流すフローを指定する
+# subflows/ は他のフローから呼ぶ部品なので、単体では実行しない
+flows:
+  - 'web/*'

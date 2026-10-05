@@ -1,16 +1,22 @@
 # テスト用アカウントでログインし、カレンダー画面を開く
-# アプリを初期状態から起動するので、MSW のモックの予定も初期データに戻る
+# launchApp の clearState でアプリのデータを消して初期状態から始める
+# （MSW のモックの予定が初期データに戻るかどうかは Android で未確認）
+# アカウントは MSW のモック用。変えるときは `-e EMAIL=... -e PASSWORD=...` で上書きする
 appId: com.hashimotonoriaki.calendarproject
+env:
+  EMAIL: test@example.com
+  PASSWORD: password
 ---
 - launchApp:
     clearState: true
-- tapOn: 'ログイン'
+- tapOn:
+    id: 'top-login-button'
 - tapOn:
     id: 'login-email-input'
-- inputText: 'test@example.com'
+- inputText: ${EMAIL}
 - tapOn:
     id: 'login-password-input'
-- inputText: 'password'
+- inputText: ${PASSWORD}
 - hideKeyboard
 - tapOn:
     id: 'login-submit-button'
