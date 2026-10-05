@@ -1,0 +1,13 @@
+# トップ画面が表示され、ログイン画面へ遷移できることを確認する
+# 実行前に `npm run web` で開発サーバー（http://localhost:8081）を起動しておく
+# Web はブラウザを毎回新しく起動するため、clearState は指定しない
+url: http://localhost:8081
+---
+- launchApp
+- assertVisible: 'お互いのスケジュールを管理するアプリです'
+- tapOn:
+    id: 'top-login-button'
+- assertVisible:
+    id: 'login-email-input'
+- assertVisible:
+    id: 'login-submit-button'
