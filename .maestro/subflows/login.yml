@@ -1,0 +1,18 @@
+# テスト用アカウントでログインし、カレンダー画面を開く
+# アプリを初期状態から起動するので、MSW のモックの予定も初期データに戻る
+appId: com.hashimotonoriaki.calendarproject
+---
+- launchApp:
+    clearState: true
+- tapOn: 'ログイン'
+- tapOn:
+    id: 'login-email-input'
+- inputText: 'test@example.com'
+- tapOn:
+    id: 'login-password-input'
+- inputText: 'password'
+- hideKeyboard
+- tapOn:
+    id: 'login-submit-button'
+- assertVisible:
+    id: 'calendar-month-title'
