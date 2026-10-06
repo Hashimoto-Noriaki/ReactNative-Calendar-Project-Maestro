@@ -1,0 +1,21 @@
+# 予定を作成すると、カレンダーに表示される
+# NOTE: カレンダー画面に予定作成モーダルを開くボタンがまだないため、pending タグで除外している
+#       ボタン（testID="calendar-create-button"）を追加したら tags を外す
+appId: com.hashimotonoriaki.calendarproject
+tags:
+  - pending
+---
+- runFlow: subflows/login.yml
+- tapOn:
+    id: 'calendar-create-button'
+- tapOn:
+    id: 'schedule-title-input'
+- inputText: 'E2Eで作成した予定'
+- tapOn:
+    id: 'schedule-description-input'
+- inputText: 'Maestroから入力'
+- hideKeyboard
+# 日付は初期値の今日のまま作成する
+- tapOn:
+    id: 'schedule-submit-button'
+- assertVisible: 'E2Eで作成した予定'

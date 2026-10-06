@@ -1,0 +1,14 @@
+# 確認ダイアログで「削除する」を押すと、予定がカレンダーから消える
+# 前提: モックの初期データ（今日の日付に「予定1」）を使う
+appId: com.hashimotonoriaki.calendarproject
+---
+- runFlow: subflows/login.yml
+- tapOn:
+    id: 'schedule-1'
+- tapOn:
+    id: 'schedule-detail-delete-button'
+- assertVisible: '予定を削除しますか？'
+- tapOn:
+    id: 'schedule-delete-confirm-button'
+- assertNotVisible:
+    id: 'schedule-1'

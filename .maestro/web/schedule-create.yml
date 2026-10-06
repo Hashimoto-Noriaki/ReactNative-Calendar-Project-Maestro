@@ -1,0 +1,20 @@
+# 予定を作成すると、カレンダーに表示される
+# 実行前に `npm run web` で開発サーバー（http://localhost:8081）を起動しておく
+url: http://localhost:8081
+---
+- runFlow: ../subflows/web-login.yml
+- tapOn:
+    id: 'calendar-create-button'
+- tapOn:
+    id: 'schedule-title-input'
+- inputText: 'E2Eで作成した予定'
+- tapOn:
+    id: 'schedule-description-input'
+- inputText: 'Maestroから入力'
+# 日付は初期値の今日のまま作成する
+- tapOn:
+    id: 'schedule-submit-button'
+# モックの初期データは 5 件なので、作成した予定の id は 6 になる
+- assertVisible:
+    id: 'schedule-6'
+    text: 'E2Eで作成した予定'

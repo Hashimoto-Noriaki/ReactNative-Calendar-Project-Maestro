@@ -1,0 +1,16 @@
+# アプリが起動し、トップ画面 → ログイン → カレンダー画面まで表示できることを確認する
+# ほかのフローより先に流して、起動やログインが壊れていないかを最初に確かめる
+appId: com.hashimotonoriaki.calendarproject
+tags:
+  - smoke
+---
+- launchApp:
+    clearState: true
+- assertVisible: 'お互いのスケジュールを管理するアプリです'
+- runFlow: subflows/login.yml
+- assertVisible:
+    id: 'calendar-prev-button'
+- assertVisible:
+    id: 'calendar-today-button'
+- assertVisible:
+    id: 'calendar-next-button'
