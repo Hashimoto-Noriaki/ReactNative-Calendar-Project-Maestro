@@ -15,6 +15,8 @@ url: http://localhost:8081
 - tapOn:
     id: 'schedule-submit-button'
 # モックの初期データは 5 件なので、作成した予定の id は 6 になる
+# id は予定の枠に、タイトルの文字はその子要素に付くため、childOf で絞り込む
 - assertVisible:
-    id: 'schedule-6'
     text: 'E2Eで作成した予定'
+    childOf:
+      id: 'schedule-6'

@@ -23,6 +23,8 @@ url: http://localhost:8081
     text: '予定1 編集済み'
 - tapOn:
     id: 'schedule-detail-close-button'
+# id は予定の枠に、タイトルの文字はその子要素に付くため、childOf で絞り込む
 - assertVisible:
-    id: 'schedule-1'
     text: '予定1 編集済み'
+    childOf:
+      id: 'schedule-1'
