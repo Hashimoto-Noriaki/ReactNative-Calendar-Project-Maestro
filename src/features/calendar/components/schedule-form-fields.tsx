@@ -25,6 +25,8 @@ export const ScheduleFormFields = ({ control, errors }: PropsType) => {
             onBlur={onBlur}
             error={!!errors.title}
             testID="schedule-title-input"
+            // Maestro Web は DOM の id で入力先を特定するため、testID と同じ値を付ける
+            id="schedule-title-input"
           />
         )}
       />
@@ -58,6 +60,8 @@ export const ScheduleFormFields = ({ control, errors }: PropsType) => {
             onBlur={onBlur}
             style={styles.textarea}
             testID="schedule-description-input"
+            // Maestro Web は DOM の id で入力先を特定するため、testID と同じ値を付ける
+            id="schedule-description-input"
           />
         )}
       />
