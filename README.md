@@ -94,6 +94,60 @@ npm run storybook           # 開発サーバーだけ起動（QR コードで�
   npx expo run:ios   # または npx expo run:android
   ```
 
+## E2E テスト（Maestro）
+
+フローは `.maestro/` にあります。ローカルでは Web 版で実行するのが基本です（Maestro は実機の iPhone に対応していないため）。
+
+| ファイル                  | 対象    | 内容                                                          |
+| ------------------------- | ------- | ------------------------------------------------------------- |
+| `.maestro/web/*.yml`      | Web     | スモークテスト・予定の作成 / 編集 / 削除                      |
+| `.maestro/*.yml`          | Android | スモークテスト・予定の作成 / 編集 / 削除                      |
+| `.maestro/subflows/*.yml` | 共通    | ログインなど、ほかのフローから呼ぶ部品（単体では実行しない）  |
+| `.maestro/config.yaml`    | —       | `maestro test .maestro` で実行するフロー（`web/*`）を指定する |
+
+### Web 版で実行する
+
+ターミナルを 2 つ使います。
+
+```bash
+# ターミナル1: 開発サーバーを起動する（http://localhost:8081）
+npm run web
+
+# ターミナル2: Maestro を実行する
+maestro test .maestro                          # config.yaml の flows（web/*）をすべて実行
+maestro test .maestro/web/smoke.yml            # 1 本だけ実行
+maestro test .maestro/web/schedule-create.yml
+```
+
+- Maestro がブラウザを自動で起動し、`http://localhost:8081` を開きます。開発サーバーが起動していないと失敗します。
+- ログイン情報を変えるときは `maestro test -e EMAIL=... -e PASSWORD=... <flow>` で上書きします。
+
+### Android エミュレーター版で実行する
+
+```bash
+# 1. エミュレーターを起動する（GUI 表示だと落ちる環境では、このオプションを付ける）
+$ANDROID_HOME/emulator/emulator -avd <AVD名> -gpu swiftshader_indirect -no-window &
+
+# 2. アプリをビルドしてインストールする
+npx expo run:android --device <AVD名>
+
+# 3. Maestro を実行する
+maestro test .maestro/smoke.yml
+```
+
+- 初回の Gradle ビルドは時間がかかります（環境によっては 30 分以上）。手早く確認したいときは Web 版を使ってください。
+- `--device` には `emulator-5554` ではなく AVD 名（例：`pixel_api35`）を渡します。
+- `expo run:android` を実行すると `package.json` の `android` / `ios` スクリプトが書き換わるので、元に戻してください。
+
+### 便利なコマンド
+
+```bash
+maestro studio     # ブラウザで要素を調べながら、フローを対話的に作れる
+maestro --version  # インストールされているバージョンを確認する
+```
+
+`maestro` コマンドが見つからない場合は、`~/.maestro/bin` が PATH に入っているか、`JAVA_HOME`（Java 17）が設定されているかを確認してください。
+
 ## Get a fresh project
 
 When you're ready, run:
