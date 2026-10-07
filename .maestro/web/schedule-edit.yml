@@ -1,0 +1,30 @@
+# 予定のタイトルを編集すると、詳細とカレンダーに反映される
+# 前提: モックの初期データ（今日の日付に「予定1」）を使う
+# 実行前に `npm run web` で開発サーバー（http://localhost:8081）を起動しておく
+url: http://localhost:8081
+---
+- runFlow: ../subflows/web-login.yml
+- tapOn:
+    id: 'schedule-1'
+- assertVisible:
+    id: 'schedule-detail-title'
+    text: '予定1'
+- tapOn:
+    id: 'schedule-detail-edit-button'
+- tapOn:
+    id: 'schedule-title-input'
+- eraseText
+- inputText: '予定1 編集済み'
+- tapOn:
+    id: 'schedule-update-submit-button'
+# 保存すると詳細モーダルに戻る
+- assertVisible:
+    id: 'schedule-detail-title'
+    text: '予定1 編集済み'
+- tapOn:
+    id: 'schedule-detail-close-button'
+# id は予定の枠に、タイトルの文字はその子要素に付くため、childOf で絞り込む
+- assertVisible:
+    text: '予定1 編集済み'
+    childOf:
+      id: 'schedule-1'

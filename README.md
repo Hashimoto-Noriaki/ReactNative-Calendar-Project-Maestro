@@ -1,29 +1,18 @@
-# Welcome to your Expo app 👋
+# Googleカレンダークローン（React Native）
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Googleカレンダーのようなカレンダーアプリのクローンです。Expo（SDK 57）+ Expo Router で作っています。
 
-## Get started
+## はじめかた
 
-1. Install dependencies
+```bash
+npm install      # 依存パッケージをインストールする
+npm start        # 開発サーバーを起動する（npx expo start）
+npm run ios      # iOS シミュレーターで起動する
+npm run android  # Android エミュレーターで起動する
+npm run web      # Web で起動する
+```
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+画面は `src/app/`（Expo Router のファイルベースルーティング）、機能ごとのコードは `src/features/` にあります。
 
 ## Lint・フォーマット・型チェック・テスト
 
@@ -94,32 +83,56 @@ npm run storybook           # 開発サーバーだけ起動（QR コードで�
   npx expo run:ios   # または npx expo run:android
   ```
 
-## Get a fresh project
+## E2E テスト（Maestro）
 
-When you're ready, run:
+フローは `.maestro/` にあります。ローカルでは Web 版で実行するのが基本です（Maestro は実機の iPhone に対応していないため）。
+
+| ファイル                  | 対象    | 内容                                                          |
+| ------------------------- | ------- | ------------------------------------------------------------- |
+| `.maestro/web/*.yml`      | Web     | スモークテスト・予定の作成 / 編集 / 削除                      |
+| `.maestro/*.yml`          | Android | スモークテスト・予定の作成 / 編集 / 削除                      |
+| `.maestro/subflows/*.yml` | 共通    | ログインなど、ほかのフローから呼ぶ部品（単体では実行しない）  |
+| `.maestro/config.yaml`    | —       | `maestro test .maestro` で実行するフロー（`web/*`）を指定する |
+
+### Web 版で実行する
+
+ターミナルを 2 つ使います。
 
 ```bash
-npm run reset-project
+# ターミナル1: 開発サーバーを起動する（http://localhost:8081）
+npm run web
+
+# ターミナル2: Maestro を実行する
+maestro test .maestro                          # config.yaml の flows（web/*）をすべて実行
+maestro test .maestro/web/smoke.yml            # 1 本だけ実行
+maestro test .maestro/web/schedule-create.yml
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- Maestro がブラウザを自動で起動し、`http://localhost:8081` を開きます。開発サーバーが起動していないと失敗します。
+- ログイン情報を変えるときは `maestro test -e EMAIL=... -e PASSWORD=... <flow>` で上書きします。
 
-### Other setup steps
+### Android エミュレーター版で実行する
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```bash
+# 1. エミュレーターを起動する（GUI 表示だと落ちる環境では、このオプションを付ける）
+$ANDROID_HOME/emulator/emulator -avd <AVD名> -gpu swiftshader_indirect -no-window &
 
-## Learn more
+# 2. アプリをビルドしてインストールする
+npx expo run:android --device <AVD名>
 
-To learn more about developing your project with Expo, look at the following resources:
+# 3. Maestro を実行する
+maestro test .maestro/smoke.yml
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- 初回の Gradle ビルドは時間がかかります（環境によっては 30 分以上）。手早く確認したいときは Web 版を使ってください。
+- `--device` には `emulator-5554` ではなく AVD 名（例：`pixel_api35`）を渡します。
+- `expo run:android` を実行すると `package.json` の `android` / `ios` スクリプトが書き換わるので、元に戻してください。
 
-## Join the community
+### 便利なコマンド
 
-Join our community of developers creating universal apps.
+```bash
+maestro studio     # ブラウザで要素を調べながら、フローを対話的に作れる
+maestro --version  # インストールされているバージョンを確認する
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+`maestro` コマンドが見つからない場合は、`~/.maestro/bin` が PATH に入っているか、`JAVA_HOME`（Java 17）が設定されているかを確認してください。

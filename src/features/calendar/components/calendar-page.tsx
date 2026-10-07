@@ -1,19 +1,22 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { format } from 'date-fns';
+import { PrimaryBtn } from '@/components/atoms';
 import { Spacing, type AppTheme } from '@/constants/theme';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import { useCalendar } from '../hooks/use-calendar';
 import { CalendarBody } from './calendar-body';
 import { CalendarHeader } from './calendar-header';
 import { CalendarNav } from './calendar-nav';
+import { CreateScheduleModal } from './create-schedule-modal';
 import { ScheduleDetailModal } from './schedule-detail-modal';
 
 export const CalendarPage = () => {
   const theme = useAppTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const { currentDate, dateList, schedulesByDate, isLoading, isError } = useCalendar();
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   return (
     // 6週ある月は小さい画面に収まらないため、スクロールできるようにする
@@ -22,6 +25,11 @@ export const CalendarPage = () => {
         {format(currentDate, 'yyyy年M月')}
       </Text>
       <CalendarNav />
+      <View style={styles.createButtonArea}>
+        <PrimaryBtn size="sm" onPress={() => setIsCreateOpen(true)} testID="calendar-create-button">
+          予定作成
+        </PrimaryBtn>
+      </View>
 
       {/* 日付の表示は予定データに依存しないため、読み込み中・失敗時もカレンダーは表示する */}
       {isLoading ? (
@@ -41,6 +49,7 @@ export const CalendarPage = () => {
         />
       </View>
       <ScheduleDetailModal />
+      <CreateScheduleModal visible={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
     </ScrollView>
   );
 };
@@ -56,6 +65,9 @@ const createStyles = (theme: AppTheme) =>
     },
     title: {
       fontWeight: 'bold',
+      marginBottom: Spacing.two,
+    },
+    createButtonArea: {
       marginBottom: Spacing.two,
     },
     status: {

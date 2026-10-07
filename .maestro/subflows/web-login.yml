@@ -1,0 +1,21 @@
+# Web 版: テスト用アカウントでログインし、カレンダー画面を開く
+# Web はブラウザを毎回新しく起動するため、MSW のモックの予定も初期データに戻る
+# アカウントは MSW のモック用。変えるときは `-e EMAIL=... -e PASSWORD=...` で上書きする
+url: http://localhost:8081
+env:
+  EMAIL: test@example.com
+  PASSWORD: password
+---
+- launchApp
+- tapOn:
+    id: 'top-login-button'
+- tapOn:
+    id: 'login-email-input'
+- inputText: ${EMAIL}
+- tapOn:
+    id: 'login-password-input'
+- inputText: ${PASSWORD}
+- tapOn:
+    id: 'login-submit-button'
+- assertVisible:
+    id: 'calendar-month-title'

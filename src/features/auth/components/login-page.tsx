@@ -74,6 +74,8 @@ export const LoginPage = () => {
               onBlur={onBlur}
               error={!!errors.email}
               testID="login-email-input"
+              // Maestro Web は DOM の id で入力先を特定するため、testID と同じ値を付ける
+              id="login-email-input"
             />
           )}
         />
@@ -96,6 +98,8 @@ export const LoginPage = () => {
               onBlur={onBlur}
               error={!!errors.password}
               testID="login-password-input"
+              // Maestro Web は DOM の id で入力先を特定するため、testID と同じ値を付ける
+              id="login-password-input"
             />
           )}
         />

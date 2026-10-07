@@ -1,0 +1,15 @@
+# 確認ダイアログで「削除する」を押すと、予定がカレンダーから消える
+# 前提: モックの初期データ（今日の日付に「予定1」）を使う
+# 実行前に `npm run web` で開発サーバー（http://localhost:8081）を起動しておく
+url: http://localhost:8081
+---
+- runFlow: ../subflows/web-login.yml
+- tapOn:
+    id: 'schedule-1'
+- tapOn:
+    id: 'schedule-detail-delete-button'
+- assertVisible: '予定を削除しますか？'
+- tapOn:
+    id: 'schedule-delete-confirm-button'
+- assertNotVisible:
+    id: 'schedule-1'
